@@ -1,5 +1,5 @@
 // const path = require("path");
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 // module.exports = {
@@ -158,6 +158,7 @@ module.exports = (webpackPackArg) => {
         new HtmlWebpackPlugin({
           template: "./dev/index.html",
         }),
+      new MiniCssExtractPlugin(),
     ].filter(Boolean);
     return plugins;
   };
