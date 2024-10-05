@@ -15,14 +15,17 @@
 //     "isolatedModules": true,
 //     "noEmit": true,
 //     "jsx": "react-jsx"
-    
 //   },
 //   "include": ["src","dev"]
 // }
-
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
@@ -30,9 +33,14 @@
     "jsx": "react",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "declaration": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "resolveJsonModule": true,
   },
-  // "include": [
-  //   "./src/**/*"
-  // ]
+  "include": [
+    "src"
+  ]
 }
