@@ -17,11 +17,31 @@ export default function (arg) {
   const { watch } = arg;
   const isEnvDevelopment = watch;
   const isEnvProduction = !watch;
-  console.log(arg, isEnvDevelopment, isEnvProduction);
-
   const inputPath = isEnvProduction
     ? "src/index.ts"
-    : isEnvDevelopment && "dev/index.tsx";
+    : isEnvDevelopment && "dev/index.js";
+
+  const outputPath = isEnvProduction
+    ? [
+        {
+          file: packageJson.main,
+          format: "cjs",
+          sourcemap: true,
+          name: packageJson.name,
+        },
+        {
+          file: packageJson.module,
+          format: "esm",
+          sourcemap: true,
+        },
+      ]
+    : {
+        file: packageJson.main,
+        format: "iife",
+        sourcemap: true,
+        name: packageJson.name,
+      };
+
   const watchConfigmaybe = isEnvProduction
     ? {}
     : {
@@ -37,17 +57,19 @@ export default function (arg) {
   const getPlugins = () => {
     const plugins = [
       peerDepsExternal(),
+      postcss(),
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      postcss(),
       isEnvDevelopment && sourcemaps(), // Source maps only in development
       isEnvProduction && terser(), // Minify for production
       isEnvDevelopment &&
         serve({
-          open: true, // Open browser after starting server
-          contentBase: ["dist"], // Serve files from 'dist'
-          port: 3001, // Port for the server
+          open: true,
+          verbose: true,
+          contentBase: ["", "public"],
+          host: "localhost",
+          port: 3001,
         }),
       isEnvDevelopment &&
         livereload({
@@ -62,36 +84,32 @@ export default function (arg) {
         }),
       isEnvDevelopment &&
         babel({
-          presets: ["@babel/preset-react"],
+          babelHelpers: "bundled",
+          exclude: "node_modules/**", // Exclude node_modules from transpiling
+          presets: ["@babel/preset-react"], // Preset for JSX
+          extensions: [".js", ".jsx", ".ts", ".tsx"], // Transpile these file types
         }),
     ].filter(Boolean);
     return plugins;
   };
-  return [
-    {
-      input: inputPath,
-      output: [
+
+  const baseConfig = {
+    input: inputPath,
+    output: outputPath,
+    plugins: getPlugins(),
+    ...extrnalMaybe,
+    ...watchConfigmaybe,
+  };
+  const config = isEnvProduction
+    ? [
+        baseConfig,
         {
-          file: packageJson.main,
-          format: "cjs",
-          sourcemap: true,
-          name: packageJson.name,
+          input: inputPath,
+          output: [{ file: packageJson.types }],
+          plugins: [dts.default()],
+          external: [/\.css$/],
         },
-        {
-          file: packageJson.module,
-          format: "esm",
-          sourcemap: true,
-        },
-      ],
-      plugins: getPlugins(),
-      ...extrnalMaybe,
-      ...watchConfigmaybe,
-    },
-    {
-      input: inputPath,
-      output: [{ file: packageJson.types }],
-      plugins: [dts.default()],
-      external: [/\.css$/],
-    },
-  ];
+      ]
+    : baseConfig;
+  return config;
 }

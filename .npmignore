@@ -4,4 +4,6 @@ src
 .babelrc
 dev
 package-lock.json
-rolluo.config.js
+rollup.config.js
+rollup.dev.config.js
+public
