@@ -7,6 +7,7 @@ import replace from "@rollup/plugin-replace";
 import image from "@rollup/plugin-image";
 import postcss from "rollup-plugin-postcss";
 import typescript from "@rollup/plugin-typescript";
+import svgr from "@svgr/rollup";
 
 const packageJson = require("./package.json");
 
@@ -28,6 +29,7 @@ export default {
     replace({
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
+    svgr(),
     typescript({ tsconfig: "./tsconfig.json" }),
     babel({
       presets: ["@babel/preset-react"],

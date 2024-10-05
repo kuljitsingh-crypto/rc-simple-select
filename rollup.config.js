@@ -10,6 +10,7 @@ import livereload from "rollup-plugin-livereload";
 import copy from "rollup-plugin-copy";
 import postcss from "rollup-plugin-postcss";
 import babel from "@rollup/plugin-babel";
+import svgr from "@svgr/rollup";
 
 const packageJson = require("./package.json");
 
@@ -61,6 +62,7 @@ export default function (arg) {
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
+      svgr(),
       isEnvDevelopment && sourcemaps(), // Source maps only in development
       isEnvProduction && terser(), // Minify for production
       isEnvDevelopment &&

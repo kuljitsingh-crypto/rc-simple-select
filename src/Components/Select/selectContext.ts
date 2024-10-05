@@ -4,7 +4,9 @@ type SelectContext = {
   addOption: (value: string) => void;
   onSelect: (value: string) => void;
   removeOption: (value: string) => void;
+  onKeyPress: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
   selectedOption: Set<string>;
+  propsHideOtpions: Set<string>;
 };
 
 export const SelectContext = React.createContext<SelectContext>(

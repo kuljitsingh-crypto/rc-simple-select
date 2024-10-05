@@ -1,3 +1,150 @@
 .rc_simple_select_root {
-  background-color: red;
+  /* Colors */
+  --placeholderColor: #757575;
+  --colorBlack: #000;
+  --colorWhite: #fff;
+  --lightGrey: #f0f0f0;
+
+  /* Border Radius */
+  --borderRadius2: 2px;
+  --borderRadius4: 4px;
+
+  /* Box Shadow */
+  --boxShadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  /* --boxShadowTop: 0 -2px 4px 0 rgba(0, 0, 0, 0.1);
+  --boxShadowLight: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --boxShadowPopup: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+  --boxShadowPopupLight: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  --boxShadowBreakdown: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  --boxShadowButton: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  --boxShadowListingCard: 0 0 50px 0 rgba(0, 0, 0, 0.1);
+  --boxShadowNotFoundPageSearch: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  --boxShadowSectionLocationHover: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
+  --boxShadowBottomForm: 0 -2px 4px 0 rgba(0, 0, 0, 0.05);
+  --boxShadowFilterButton: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+  --boxShadowReactSelect: 0px 2px 7px #00000029;
+  --boxShadowReactSelectBtm: 0px 8px 7px 0px #00000029;
+  --boxShadowCheckbox: 0px 3px 6px #0000009d;
+  --boxShadowInnerCheckbox: 0px 1px 5px #0000004d;
+  --boxShadowCheckbox2: 0px 1px 3px #00000050;
+  --boxShadowCreateCollectionBtn: 0px -1px 17px #0000001a; */
+
+  position: relative;
+}
+
+.rc_simple_select_root li {
+  list-style: none !important;
+}
+
+.rc_simple_select_options {
+  background-color: var(--colorWhite);
+  display: none;
+  position: absolute;
+  margin: 0px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--borderRadius4);
+  padding: 0px 0px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: var(--boxShadow);
+  align-items: center;
+}
+
+.rc_simple_select_show_options {
+  display: flex;
+  flex-direction: column;
+}
+.rc_simple_select_option_shower {
+  color: var(--colorBlack);
+  width: 100%;
+  border: 0px;
+  outline: none !important;
+  background-color: var(--colorWhite);
+  border: 1px solid var(--placeholderColor);
+  padding: 10px 16px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  line-height: 24px;
+  font-size: 16px;
+  border-radius: var(--borderRadius4);
+  cursor: pointer;
+  align-items: center;
+}
+.rc_simple_select_placeholder {
+  color: var(--placeholderColor);
+}
+.rc_simple_select_icon {
+  width: 16px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.rc_simple_select_input {
+  flex-grow: 1;
+  background-color: transparent !important;
+  border: 0px;
+  outline: none !important;
+  font-size: 16px;
+  line-height: 24px;
+}
+.rc_simple_select_show_options {
+  border-color: var(--colorBlack);
+}
+
+.rc_simple_select_show_options .rc_simple_select_icon {
+  transform: rotate(-180deg);
+}
+
+.rc_simple_select_placeholder .rc_simple_select_input {
+  color: var(--placeholderColor);
+}
+
+.rc_simple_select_option {
+  border: 0px;
+  outline: none !important;
+  width: calc(100% - 16px);
+  margin: 4px 0px;
+}
+
+.rc_simple_select_option:first-child {
+  margin-top: 8px;
+}
+
+.rc_simple_select_option:last-child {
+  margin-bottom: 8px;
+}
+
+.rc_simple_select_option button {
+  border: 0px;
+  outline: none !important;
+  width: 100%;
+  background-color: transparent;
+  padding: 10px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.rc_simple_select_option button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.rc_simple_select_option button:active,
+.rc_simple_select_option button:hover {
+  background-color: var(--lightGrey);
+}
+
+.rc_simple_select_option_selected {
+  background-color: var(--lightGrey);
+}
+.rc_simple_select_option_hidden {
+  display: none;
+}
+
+.rc_simple_select_option_disabled button {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

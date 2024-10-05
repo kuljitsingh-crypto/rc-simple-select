@@ -22,6 +22,7 @@
     "@rollup/plugin-replace": "^6.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@svgr/rollup": "^8.1.0",
     "@types/jest": "^29.5.13",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
@@ -46,8 +47,5 @@
   "scripts": {
     "dev-start": "rollup -c rollup.dev.config.js -w --bundleConfigAsCjs",
     "build": "rollup -c rollup.config.js --bundleConfigAsCjs"
-  },
-  "dependencies": {
-    "classnames": "^2.5.1"
   }
 }
