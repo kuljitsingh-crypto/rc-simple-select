@@ -1,11 +1,16 @@
 import React, { useContext } from "react";
 
 type SelectContext = {
-  addOption: (value: string) => void;
-  onSelect: (value: string) => void;
-  removeOption: (value: string) => void;
+  addAvailableOption: (
+    value: string,
+    options: { hidden: boolean; label: string }
+  ) => void;
+  onSelect: (value: string, hidden: boolean) => void;
+  removeAvailableOption: (value: string) => void;
   onKeyPress: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
-  selectedOption: Set<string>;
+  isOptionSelected: (value: string) => boolean;
+  setOptionForKeyPress: (value: string, label: string) => void;
+  removeOptionForKeyPress: (value: string) => void;
   propsHideOtpions: Set<string>;
 };
 

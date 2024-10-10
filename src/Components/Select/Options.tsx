@@ -1,6 +1,14 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { PropsWithChildren, useEffect, useRef } from "react";
 import { useSelectContext } from "./selectContext";
 import { classnames } from "../../utill";
+
+type RenderProps = {
+  hidden: boolean;
+  disabled: boolean;
+  value: string;
+  onClick: (event: React.MouseEvent) => void;
+  onKeyDown: (event: React.KeyboardEvent) => void;
+};
 
 type OptionProps = PropsWithChildren & {
   value: string;
@@ -9,6 +17,8 @@ type OptionProps = PropsWithChildren & {
   key?: any;
   optionClassName?: string;
   optionSelectedClassName?: string;
+  optionRef?: React.MutableRefObject<HTMLLIElement>;
+  onRender?: (renderProps: RenderProps) => React.JSX.Element;
 };
 
 function Options(props: OptionProps) {
@@ -19,20 +29,27 @@ function Options(props: OptionProps) {
     children,
     optionClassName,
     optionSelectedClassName,
+    optionRef,
+    onRender,
     ...rest
   } = props;
   const {
-    selectedOption,
     propsHideOtpions,
-    addOption,
-    removeOption,
+    addAvailableOption,
+    removeAvailableOption,
     onSelect,
     onKeyPress,
+    setOptionForKeyPress,
+    removeOptionForKeyPress,
+    isOptionSelected: propsIsOptionSelected,
   } = useSelectContext();
-
-  const isOptionSelected = !!selectedOption?.has(value);
+  const liRef = useRef<{ label: string; value: string }>({
+    value: value,
+    label: "",
+  });
+  const isOptionSelected = propsIsOptionSelected(value);
   const isOptionHidden = !!hidden || propsHideOtpions.has(value);
-  const isOptionDisabled = !!disabled || propsHideOtpions.has(value);
+  const isOptionDisabled = !!disabled;
 
   const optionClass = classnames("option", optionClassName, {
     option_selected: isOptionSelected,
@@ -41,23 +58,34 @@ function Options(props: OptionProps) {
     option_disabled: isOptionDisabled,
   });
 
-  const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (disabled || hidden) return;
-    onSelect(value);
+    if (isOptionDisabled || isOptionHidden) return;
+    onSelect(value, isOptionHidden);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    onKeyPress(e);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    onKeyPress(e as React.KeyboardEvent<HTMLButtonElement>);
   };
 
-  useEffect(() => {
-    addOption(value);
-    return () => {
-      removeOption(value);
-    };
-  }, []);
+  const liRefCb = (el: HTMLLIElement | null) => {
+    if (!el) return;
+    const label = el.textContent ?? "";
+    if (optionRef && optionRef.current) {
+      optionRef.current = el;
+    }
+    if (liRef.current.value !== value || liRef.current.label !== label) {
+      liRef.current = { value: value, label: label };
+      removeAvailableOption(value);
+      addAvailableOption(value, { hidden: isOptionHidden, label });
+      if (isOptionDisabled) {
+        removeOptionForKeyPress(value);
+      } else {
+        setOptionForKeyPress(value, label);
+      }
+    }
+  };
 
   return (
     <li
@@ -67,10 +95,23 @@ function Options(props: OptionProps) {
       aria-disabled={isOptionDisabled}
       {...rest}
       className={optionClass}
-      onClick={handleClick}>
-      <button onKeyDown={handleKeyDown} disabled={isOptionDisabled}>
-        {children}
-      </button>
+      ref={liRefCb}>
+      {typeof onRender === "function" ? (
+        onRender({
+          hidden: isOptionHidden,
+          disabled: isOptionDisabled,
+          value,
+          onClick: handleClick,
+          onKeyDown: handleKeyDown,
+        })
+      ) : (
+        <button
+          onKeyDown={handleKeyDown}
+          disabled={isOptionDisabled}
+          onClick={handleClick}>
+          {children}
+        </button>
+      )}
     </li>
   );
 }

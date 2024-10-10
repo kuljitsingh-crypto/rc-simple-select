@@ -11,6 +11,7 @@ import copy from "rollup-plugin-copy";
 import postcss from "rollup-plugin-postcss";
 import babel from "@rollup/plugin-babel";
 import svgr from "@svgr/rollup";
+import image from "@rollup/plugin-image";
 
 const packageJson = require("./package.json");
 
@@ -58,6 +59,7 @@ export default function (arg) {
   const getPlugins = () => {
     const plugins = [
       peerDepsExternal(),
+      image(),
       postcss(),
       resolve(),
       commonjs(),
