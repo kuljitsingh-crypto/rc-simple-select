@@ -28,7 +28,7 @@ type SelectValue<T> = T extends undefined
 
 type SelectProps<T> = PropsWithChildren & {
   isMulti?: T;
-  initialValues?: SelectValue<T>;
+  values?: SelectValue<T>;
   closeOnSelect?: boolean;
   selectClassName?: string;
   optionWrapperClassName?: string;
@@ -295,7 +295,7 @@ export function Select<T extends boolean | undefined = undefined>(
     children,
     isMulti,
     closeOnSelect = true,
-    initialValues,
+    values,
     selectClassName,
     optionWrapperClassName,
     optionShowerClassName,
@@ -331,7 +331,7 @@ export function Select<T extends boolean | undefined = undefined>(
     isOptionSelected,
     getSelectedOptions,
     optionChanged,
-  } = useSelectOptions({ initialValue: initialValues, isMultiple: !!isMulti });
+  } = useSelectOptions({ initialValue: values, isMultiple: !!isMulti });
 
   const selectClass = classnames("root", selectClassName);
   const optionWrapperClass = classnames("options", optionWrapperClassName, {

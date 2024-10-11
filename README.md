@@ -50,7 +50,7 @@ const MyComponent = () => {
 The `Select` component accepts the following props:
 
 - `isMulti`: Boolean to enable multi-select mode
-- `initialValues`: Initial selected value(s)
+- `values`: Selected value(s)
 - `closeOnSelect`: Boolean to close the dropdown on selection (default: true)
 - `selectClassName`: Custom class name for the select container
 - `optionWrapperClassName`: Custom class name for the options wrapper

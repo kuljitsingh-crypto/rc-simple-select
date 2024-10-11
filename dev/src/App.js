@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Option, Select } from "../../src";
 // import { ReactComponent as ArrowDown } from "./svg/arrow-down.svg";
 
@@ -10,28 +10,30 @@ const options = [
   { value: "e", label: "e" },
   { value: "f", label: "fdasdagdfg df dg dgdfg dfg df sdas" },
 ];
-// import {} from ""
 
-// const IconComponent = (props) => {
-//   const { className } = props;
-//   return <ArrowDown className={className} />;
-// };
-
-// import * as s from "rc-simple-select"
 function App() {
+  const [selectInitailValues, setSelectInitailValues] = useState("a");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSelectInitailValues("c");
+    }, 1000);
+  }, []);
+
+  console.log(selectInitailValues);
   return (
     <div className='root'>
       <Select
-        isMulti={true}
         onSelect={(value) => {
           console.log(value);
         }}
         placeholder='fsdfsd'
         isSearchable={false}
         // IconComponent={IconComponent}
-        renderValue={(value) => {
-          return value.map((v, index) => <span key={index}>{v.label}</span>);
-        }}>
+        // renderValue={(value) => {
+        //   return value.map((v, index) => <span key={index}>{v.label}</span>);
+        // }}
+        initialValues={selectInitailValues}>
         <Option value='a'>a</Option>
         <Option value='b' disabled>
           b

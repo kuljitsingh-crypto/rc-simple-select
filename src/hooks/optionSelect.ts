@@ -60,13 +60,13 @@ export const useSelectOptions = ({
           map.set(stringValue, { hidden: false });
         }
       }
-      setOptionChanged(1);
+      setOptionChanged(updateOptionChangedCount);
     }
     localSelectedOptions.current = map;
   };
 
   const updateOptionChangedCount = (count: number) => {
-    const paddedCount = (optionChanged + 1) % MAX_COUNT;
+    const paddedCount = (count + 1) % MAX_COUNT;
     return paddedCount >= MIN_COUNT ? paddedCount : paddedCount + MIN_COUNT;
   };
 
