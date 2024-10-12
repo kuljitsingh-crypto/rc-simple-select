@@ -1,6 +1,6 @@
 {
   "name": "rc-simple-select",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
