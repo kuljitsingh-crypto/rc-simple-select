@@ -2,6 +2,7 @@ const CLASS_NAME_PREFIX = "rc_simple_select_";
 
 type StringClass = string;
 type ObjectClass = { [name: string]: boolean };
+type SpecficCalss = { classname?: string; addClassPrefix: boolean };
 
 type ClassNamesCategory = {
   stringClassNames: string;
@@ -17,21 +18,31 @@ const appendClass = (oldValue: string, newValue: string) => {
   return className;
 };
 
-const getActiveClassNameFromObject = (obj?: ObjectClass) => {
+const getActiveClassNameFromObject = (obj?: ObjectClass | SpecficCalss) => {
   if (!obj) return "";
-  const entries = Object.entries(obj);
-  const stringClassNames = entries.reduce((acc, entry, indx) => {
-    const [classname, status] = entry;
-    if (status) {
-      acc = appendClass(acc, `${CLASS_NAME_PREFIX}${classname}`);
+  let stringClassNames = "";
+  if (typeof obj.addClassPrefix === "boolean") {
+    const { classname, addClassPrefix } = obj;
+    if (classname && typeof classname === "string") {
+      stringClassNames = `${
+        addClassPrefix ? CLASS_NAME_PREFIX : ""
+      }${classname}`;
     }
-    return acc;
-  }, "");
+  } else {
+    const entries = Object.entries(obj);
+    stringClassNames = entries.reduce((acc, entry, indx) => {
+      const [classname, status] = entry;
+      if (status) {
+        acc = appendClass(acc, `${CLASS_NAME_PREFIX}${classname}`);
+      }
+      return acc;
+    }, "");
+  }
   return stringClassNames;
 };
 
 export const classnames = (
-  ...classnames: (StringClass | ObjectClass | undefined)[]
+  ...classnames: (StringClass | ObjectClass | SpecficCalss | undefined)[]
 ) => {
   let { stringClassNames, nonStringClassNames } = classnames.reduce(
     (acc: ClassNamesCategory, classname) => {

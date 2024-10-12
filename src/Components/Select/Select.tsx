@@ -115,12 +115,16 @@ const OptionShower = (props: OptionShower) => {
   const selectedOptionsCount = selectedOptions.length;
   const isOptionSelected = !!selectedOptionsCount || !!searchText;
   const isMultipleOptionSelected = !!(isMultiple && selectedOptionsCount);
-  const optionShowerClass = classnames("option_shower", optionShowerClassName, {
-    placeholder: !isOptionSelected,
-    show_options: showOptions,
-    multi_select_options: !!(isMultiple && selectedOptionsCount),
-    wrap_options: !!(isMultiple && isSearchable),
-  });
+  const optionShowerClass = classnames(
+    "option_shower",
+    { classname: optionShowerClassName, addClassPrefix: false },
+    {
+      placeholder: !isOptionSelected,
+      show_options: showOptions,
+      multi_select_options: !!(isMultiple && selectedOptionsCount),
+      wrap_options: !!(isMultiple && isSearchable),
+    }
+  );
   const iconsClass = classnames("icon");
   const inputClass = classnames("input", {
     hidden_input: !showOptions,
@@ -333,10 +337,17 @@ export function Select<T extends boolean | undefined = undefined>(
     optionChanged,
   } = useSelectOptions({ initialValue: values, isMultiple: !!isMulti });
 
-  const selectClass = classnames("root", selectClassName);
-  const optionWrapperClass = classnames("options", optionWrapperClassName, {
-    show_options: showOptions,
+  const selectClass = classnames("root", {
+    classname: selectClassName,
+    addClassPrefix: false,
   });
+  const optionWrapperClass = classnames(
+    "options",
+    { classname: optionWrapperClassName, addClassPrefix: false },
+    {
+      show_options: showOptions,
+    }
+  );
 
   const handleSelect = (
     value: string,

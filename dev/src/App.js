@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../index.css";
 import { Option, Select } from "../../src";
 // import { ReactComponent as ArrowDown } from "./svg/arrow-down.svg";
 
@@ -33,8 +34,13 @@ function App() {
         // renderValue={(value) => {
         //   return value.map((v, index) => <span key={index}>{v.label}</span>);
         // }}
-        initialValues={selectInitailValues}>
-        <Option value='a'>a</Option>
+        initialValues={selectInitailValues}
+        selectClassName='selectRoot'
+        optionShowerClassName='optionShow'
+        optionWrapperClassName='optionWrap'>
+        <Option value='a' optionClassName={"option"}>
+          a
+        </Option>
         <Option value='b' disabled>
           b
         </Option>

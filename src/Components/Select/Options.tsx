@@ -51,12 +51,16 @@ function Options(props: OptionProps) {
   const isOptionHidden = !!hidden || propsHideOtpions.has(value);
   const isOptionDisabled = !!disabled;
 
-  const optionClass = classnames("option", optionClassName, {
-    option_selected: isOptionSelected,
-    optionSelectedClassName: isOptionSelected && !!optionSelectedClassName,
-    option_hidden: isOptionHidden,
-    option_disabled: isOptionDisabled,
-  });
+  const optionClass = classnames(
+    "option",
+    { classname: optionClassName, addClassPrefix: false },
+    {
+      option_selected: isOptionSelected,
+      optionSelectedClassName: isOptionSelected && !!optionSelectedClassName,
+      option_hidden: isOptionHidden,
+      option_disabled: isOptionDisabled,
+    }
+  );
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
